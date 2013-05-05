@@ -157,14 +157,21 @@ var dataTablesConfig = {
         // holding container
         var justAnArray = [];
 
+        var value;
+
         // loop through config headers
         for (var i=0;i<configHeaders.length;i++){
 
             // compare the data object keys with the config headers
             if (oData.hasOwnProperty(configHeaders[i])){
 
-                // if an item appears in config headers, push the matching object value to array
-                justAnArray.push('value');
+                for(var key in oData) {
+
+                    var value = oData[key];
+
+                	// if an item appears in config headers, push the matching object value to array
+                	justAnArray.push(value);
+                }
 
             // else it should not be displayed
             } else {
@@ -175,17 +182,16 @@ var dataTablesConfig = {
 
         console.log(justAnArray);
 
-
         /* swap out the properties of oData to reflect
         the names of columns or keys you want to display */
         var sOut =
             '<div class="innerDetails">' +
-                '<p>' + justAnArray[0] + '</p>' +
                 '<p>' + justAnArray[1] + '</p>' +
                 '<p>' + justAnArray[2] + '</p>' +
                 '<p>' + justAnArray[3] + '</p>' +
                 '<p>' + justAnArray[4] + '</p>' +
                 '<p>' + justAnArray[5] + '</p>' +
+                '<p>' + justAnArray[6] + '</p>' +
 
 /*
                 '<p>' + oData.day + '</p>' +
