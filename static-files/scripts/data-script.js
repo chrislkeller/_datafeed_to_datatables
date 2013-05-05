@@ -23,8 +23,11 @@ var defaultTableOptions = {
     // div to write table to
     tableElementContainer: '#demo',
 
-    // table type can be standard or drilldown
+    // table type can be drilldown or standard. Blank === standard
     tableType: 'drilldown',
+
+    // column headers as they appear in the spreadsheet
+    columnHeaders: ['Day', 'Time', 'Place'],
 
     // table sorting method
     // first value is the column to sort on
@@ -72,6 +75,11 @@ var dataTablesConfig = {
             var oTableColumnsTest = {'mDataProp': null, 'sClass': 'control center', 'sDefaultContent': '<i class="icon-plus icon-black"></i>'};
             dataTablesConfig.oTableColumns.splice(0, 0, oTableColumnsTest);
         }
+
+        for (var i=0;i<defaultTableOptions.columnHeaders.length;i++){
+            console.log(defaultTableOptions.columnHeaders[i].toLowerCase());
+        }
+
     },
 
     // create table headers with array of table header objects
@@ -106,13 +114,8 @@ var dataTablesConfig = {
     // create the table container and object
     writeTableWith: function(dataSource){
 
+        // working toward pulling column headers via config or auto
         dataTablesConfig.createArrayOfTableColumns();
-
-        console.log(dataTablesConfig.oTableColumns);
-
-
-
-
 
         jqueryNoConflict(defaultTableOptions.tableElementContainer).html('<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered table-striped" id="data-table-container"></table>');
 
