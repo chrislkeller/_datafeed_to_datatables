@@ -26,8 +26,11 @@ var defaultTableOptions = {
     // table type can be drilldown or standard. Blank === standard
     tableType: 'drilldown',
 
-    // column headers as they appear in the spreadsheet
+    // column headers from the spreadsheet you want to appear
     columnHeaders: ['Day', 'Time', 'Place'],
+
+    // if table type above is set to drilldown, these are the columns to display
+    drilldownInfo: ['Day', 'Time', 'Place', 'Title', 'Speaker', 'Description', 'Test'],
 
     // table sorting method
     // first value is the column to sort on
@@ -70,24 +73,27 @@ var dataTablesConfig = {
     },
 
     // function to push splice object to table column array if drilldown selected
+    // pulls column headers from config array and pushs to table column array
     createArrayOfTableColumns: function(){
+        var headers = defaultTableOptions.columnHeaders;
+
         if (defaultTableOptions.tableType === 'drilldown'){
             var oTableColumnsTest = {'mDataProp': null, 'sClass': 'control center', 'sDefaultContent': '<i class="icon-plus icon-black"></i>'};
             dataTablesConfig.oTableColumns.splice(0, 0, oTableColumnsTest);
         }
 
-        for (var i=0;i<defaultTableOptions.columnHeaders.length;i++){
-            console.log(defaultTableOptions.columnHeaders[i].toLowerCase());
+        for (var i=0;i<headers.length;i++){
+            var oTableColumnBuild = {
+                'mDataProp': headers[i].toLowerCase(),
+                'sTitle': headers[i]
+            };
+            dataTablesConfig.oTableColumns.push(oTableColumnBuild);
         }
 
     },
 
     // create table headers with array of table header objects
-    oTableColumns: [
-        {'mDataProp': "day", 'sTitle': 'Day'},
-        {'mDataProp': "time", 'sTitle': 'Time'},
-        {'mDataProp': "place", 'sTitle': 'Place'}
-    ],
+    oTableColumns: [],
 
     oTableDefaultObjectTest: {
         'oLanguage': {
@@ -124,7 +130,6 @@ var dataTablesConfig = {
             console.log('config = tabletop');
             dataTablesConfig.oTableDefaultObjectTest['aaData'] = dataSource;
             dataTablesConfig.oTableDefaultObjectTest['aoColumns'] = dataTablesConfig.oTableColumns;
-            console.log(dataTablesConfig.oTableDefaultObjectTest);
 
         // else write values if flatfile
         } else {
@@ -132,7 +137,6 @@ var dataTablesConfig = {
             dataTablesConfig.oTableDefaultObjectTest['aoColumns'] = dataTablesConfig.oTableColumns;
             dataTablesConfig.oTableDefaultObjectTest['sAjaxDataProp'] = 'objects';
             dataTablesConfig.oTableDefaultObjectTest['sAjaxSource'] = dataSource;
-            console.log(dataTablesConfig.oTableDefaultObjectTest);
         }
 
         var oTable = jqueryNoConflict('#data-table-container').dataTable(dataTablesConfig.oTableDefaultObjectTest);
@@ -143,18 +147,55 @@ var dataTablesConfig = {
 
     // format details function
     fnFormatDetails: function (oTable, nTr){
+
+        // retrieve data object
         var oData = oTable.fnGetData(nTr);
+
+        // retrieve config headers and lowercase items
+        var configHeaders = lowerCaseArrayItems(defaultTableOptions.drilldownInfo);
+
+        // holding container
+        var justAnArray = [];
+
+        // loop through config headers
+        for (var i=0;i<configHeaders.length;i++){
+
+            // compare the data object keys with the config headers
+            if (oData.hasOwnProperty(configHeaders[i])){
+
+                // if an item appears in config headers, push the matching object value to array
+                justAnArray.push('value');
+
+            // else it should not be displayed
+            } else {
+                console.log('no');
+            }
+        }
+        // end for loop
+
+        console.log(justAnArray);
+
 
         /* swap out the properties of oData to reflect
         the names of columns or keys you want to display */
         var sOut =
             '<div class="innerDetails">' +
+                '<p>' + justAnArray[0] + '</p>' +
+                '<p>' + justAnArray[1] + '</p>' +
+                '<p>' + justAnArray[2] + '</p>' +
+                '<p>' + justAnArray[3] + '</p>' +
+                '<p>' + justAnArray[4] + '</p>' +
+                '<p>' + justAnArray[5] + '</p>' +
+
+/*
                 '<p>' + oData.day + '</p>' +
                 '<p>' + oData.time + '</p>' +
                 '<p>' + oData.place + '</p>' +
                 '<p>' + oData.title + '</p>' +
                 '<p>' + oData.speaker + '</p>' +
                 '<p>' + oData.description + '</p>' +
+*/
+
             '</div>';
 
         return sOut;
@@ -215,3 +256,12 @@ var dataTablesConfig = {
     }
 }
 // end main datatables object
+
+
+function lowerCaseArrayItems(array){
+    var arrayHoldingContainer = [];
+    for (var i=0;i<array.length;i++){
+        arrayHoldingContainer.push(array[i].toLowerCase());
+    }
+    return arrayHoldingContainer;
+}
