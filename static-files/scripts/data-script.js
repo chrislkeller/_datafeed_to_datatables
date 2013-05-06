@@ -30,7 +30,7 @@ var defaultTableOptions = {
     columnHeaders: ['Day', 'Time', 'Place'],
 
     // if table type above is set to drilldown, these are the columns to display
-    drilldownInfo: ['Day', 'Time', 'Place', 'Title', 'Speaker', 'Description', 'Test'],
+    drilldownInfo: ['Day: ', 'Time: ', 'Place: ', 'Title: ', 'Speaker: ', 'Description: ', 'Test: '],
 
     // table sorting method
     // first value is the column to sort on
@@ -145,6 +145,14 @@ var dataTablesConfig = {
         dataTablesConfig.formatNumberData();
     },
 
+
+
+
+
+
+
+
+
     // format details function
     fnFormatDetails: function (oTable, nTr){
 
@@ -152,46 +160,44 @@ var dataTablesConfig = {
         var oData = oTable.fnGetData(nTr);
 
         // retrieve config headers and lowercase items
-        var configHeaders = lowerCaseArrayItems(defaultTableOptions.drilldownInfo);
+        var configHeaders = defaultTableOptions.drilldownInfo;
 
-        // holding container
-        var justAnArray = [];
+        // retrieve config headers and lowercase items
+        var configHeadersLower = lowerCaseArrayItems(defaultTableOptions.drilldownInfo);
 
-        var value;
-
-        // loop through config headers
-        for (var i=0;i<configHeaders.length;i++){
-
-            // compare the data object keys with the config headers
-            if (oData.hasOwnProperty(configHeaders[i])){
-
-                for(var key in oData) {
-
-                    var value = oData[key];
-
-                	// if an item appears in config headers, push the matching object value to array
-                	justAnArray.push(value);
-                }
-
-            // else it should not be displayed
-            } else {
-                console.log('no');
-            }
+        // gives me the values from an object
+        for(var key in oData) {
+            var value = oData[key];
+        	console.log(value);
         }
-        // end for loop
 
-        console.log(justAnArray);
+
+
+        var testHoldingObject = {
+
+        };
+
+
+
+
+
 
         /* swap out the properties of oData to reflect
         the names of columns or keys you want to display */
         var sOut =
             '<div class="innerDetails">' +
-                '<p>' + justAnArray[1] + '</p>' +
-                '<p>' + justAnArray[2] + '</p>' +
-                '<p>' + justAnArray[3] + '</p>' +
-                '<p>' + justAnArray[4] + '</p>' +
-                '<p>' + justAnArray[5] + '</p>' +
-                '<p>' + justAnArray[6] + '</p>' +
+
+
+
+                '<p>' + configHeaders[0] + '</p>' +
+                '<p>' + configHeaders[1] + '</p>' +
+                '<p>' + configHeaders[2] + '</p>' +
+                '<p>' + configHeaders[3] + '</p>' +
+                '<p>' + configHeaders[4] + '</p>' +
+                '<p>' + configHeaders[5] + '</p>' +
+
+
+
 
 /*
                 '<p>' + oData.day + '</p>' +
