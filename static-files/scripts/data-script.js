@@ -29,6 +29,9 @@ var defaultTableOptions = {
     // column headers from the spreadsheet you want to appear
     columnHeaders: ['Day', 'Time', 'Place'],
 
+    // if table type above is set to drilldown, these are the columns to display
+    drilldownInfo: ['Day: ', 'Time: ', 'Place: ', 'Title: ', 'Speaker: ', 'Description: '],
+
     // table sorting method
     // first value is the column to sort on
     // second is 'asc' or 'desc'
@@ -142,16 +145,49 @@ var dataTablesConfig = {
     fnFormatDetails: function (oTable, nTr){
         var oData = oTable.fnGetData(nTr);
 
+        // retrieve config headers and lowercase items
+        var configHeaders = defaultTableOptions.drilldownInfo;
+
+        // retrieve config headers and lowercase items
+        var configHeadersLower = lowerCaseArrayItems(defaultTableOptions.drilldownInfo);
+
+        // gives me the values from an object
+        for(var key in oData) {
+            var value = oData[key];
+        	console.log(value);
+        }
+
+
+        var testHoldingObject = {
+
+        };
+
         /* swap out the properties of oData to reflect
         the names of columns or keys you want to display */
         var sOut =
             '<div class="innerDetails">' +
+
+
+
+                '<p>' + configHeaders[0] + '</p>' +
+                '<p>' + configHeaders[1] + '</p>' +
+                '<p>' + configHeaders[2] + '</p>' +
+                '<p>' + configHeaders[3] + '</p>' +
+                '<p>' + configHeaders[4] + '</p>' +
+                '<p>' + configHeaders[5] + '</p>' +
+
+
+
+
+/*
                 '<p>' + oData.day + '</p>' +
                 '<p>' + oData.time + '</p>' +
                 '<p>' + oData.place + '</p>' +
                 '<p>' + oData.title + '</p>' +
                 '<p>' + oData.speaker + '</p>' +
                 '<p>' + oData.description + '</p>' +
+*/
+
             '</div>';
 
         return sOut;
@@ -212,3 +248,11 @@ var dataTablesConfig = {
     }
 }
 // end main datatables object
+
+function lowerCaseArrayItems(array){
+    var arrayHoldingContainer = [];
+    for (var i=0;i<array.length;i++){
+        arrayHoldingContainer.push(array[i].toLowerCase());
+    }
+    return arrayHoldingContainer;
+}
