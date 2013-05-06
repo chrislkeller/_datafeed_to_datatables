@@ -38,7 +38,7 @@ var defaultTableOptions = {
     tableSorting: [[ 3, "asc" ]],
 
     // minimum of 10 needed to alter the per page select menu
-	displayLength: 15
+    displayLength: 15
 };
 
 // begin main datatables object
@@ -127,20 +127,17 @@ var dataTablesConfig = {
 
         // write values to oTableDefaultObjectTest if tabletop
         if (defaultTableOptions.dataSource === 'tabletop'){
-            console.log('config = tabletop');
             dataTablesConfig.oTableDefaultObjectTest['aaData'] = dataSource;
             dataTablesConfig.oTableDefaultObjectTest['aoColumns'] = dataTablesConfig.oTableColumns;
 
         // else write values if flatfile
         } else {
-            console.log('config = flatfile');
             dataTablesConfig.oTableDefaultObjectTest['aoColumns'] = dataTablesConfig.oTableColumns;
             dataTablesConfig.oTableDefaultObjectTest['sAjaxDataProp'] = 'objects';
             dataTablesConfig.oTableDefaultObjectTest['sAjaxSource'] = dataSource;
         }
 
         var oTable = jqueryNoConflict('#data-table-container').dataTable(dataTablesConfig.oTableDefaultObjectTest);
-
     	dataTablesConfig.hideShowDiv(oTable);
         dataTablesConfig.formatNumberData();
     },
